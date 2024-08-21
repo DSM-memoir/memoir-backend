@@ -2,7 +2,7 @@ package com.memoir.domain.memoir.controller;
 
 import com.memoir.domain.memoir.dto.MemoirRequest;
 import com.memoir.domain.memoir.dto.MemoirResponse;
-import com.memoir.domain.memoir.service.usecase.MemoirUseCase;
+import com.memoir.domain.memoir.service.MemoirService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/memoir")
 public class MemoirController {
-  private final MemoirUseCase useCase;
+  private final MemoirService useCase;
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
