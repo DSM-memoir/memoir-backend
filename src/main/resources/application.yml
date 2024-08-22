@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: memoirServer
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_SCHEMA:demo}
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASS:1234}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+secret:
+  secret-key: ${SECRET_KEY:asdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfds}
+  access-exp: ${ACCESS_EXP:3600}
+  refresh-exp: ${REFRESH_EXP:1205600}
+
+cloud:
+  aws:
+    s3.bucket : ${BUCKET_NAME}
+    stack.auto: false
+    region.static: ${BUCKET_REGION}
+
+    credentials:
+      access-key: ${S3_ACCESS}
+      secret-key: ${S3_SECRET}
