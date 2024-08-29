@@ -1,6 +1,10 @@
 server:
   port: 8080
+
 spring:
+  profiles:
+    include: prod
+
   application:
     name: memoirServer
 
@@ -22,10 +26,10 @@ secret:
 
 cloud:
   aws:
-    s3.bucket : ${BUCKET_NAME}
+    s3.bucket : ${BUCKET_NAME:my-bucket}
     stack.auto: false
-    region.static: ${BUCKET_REGION}
+    region.static: ${BUCKET_REGION:my-region}
 
     credentials:
-      access-key: ${S3_ACCESS}
-      secret-key: ${S3_SECRET}
+      access-key: ${S3_ACCESS:my-access}
+      secret-key: ${S3_SECRET:my-secret}
