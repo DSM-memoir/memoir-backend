@@ -17,19 +17,26 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+
+    properties:
+      hibernate:
+      format_sql: true
+
+  cloud:
+    aws:
+      s3:
+        bucket: ${BUCKET_NAME:my-bucket}
+        region: ${AWS_REGION:my-region}
+
+      region:
+        static: ${AWS_REGION:my-region}
+
+      credentials:
+        access-key: ${S3_ACCESS:my-access}
+        secret-key: ${S3_SECRET:my-secret}
 
 secret:
   secret-key: ${SECRET_KEY:asdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfdsasdfghgfds}
   access-exp: ${ACCESS_EXP:3600}
   refresh-exp: ${REFRESH_EXP:1205600}
-
-cloud:
-  aws:
-    s3.bucket : ${BUCKET_NAME:my-bucket}
-    stack.auto: false
-    region.static: ${BUCKET_REGION:my-region}
-
-    credentials:
-      access-key: ${S3_ACCESS:my-access}
-      secret-key: ${S3_SECRET:my-secret}
