@@ -8,12 +8,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableWebSecurity
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfig {
 
@@ -22,18 +25,20 @@ public class SecurityConfig {
     @Bean
     protected DefaultSecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.disable())
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http
-                .apply(filterConfig);
+                .authorizeHttpRequests( authorize -> authorize
+                        .requestMatchers("/user/login", "/user/signup", "/error").permitAll()
 
+                        .anyRequest().authenticated()
+                );
         http
-                .authorizeHttpRequests( authorize ->
-                        authorize.anyRequest().permitAll()
-        );
+                .apply(filterConfig);
 
         return http.build();
     }

@@ -5,20 +5,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(60)")
+    private String accountId;
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(60)")
+    private String nickname;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(60)")
     private String password;
