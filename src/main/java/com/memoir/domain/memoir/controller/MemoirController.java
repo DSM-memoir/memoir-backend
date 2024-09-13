@@ -19,23 +19,23 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/memoir")
 public class MemoirController {
-  private final MemoirService useCase;
+  private final MemoirService memoirService;
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public void create(@Valid @RequestPart(name = "request") MemoirRequest request, @RequestPart(name = "file") MultipartFile imageFile) throws IOException {
-    useCase.create(request, imageFile);
+    memoirService.create(request, imageFile);
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(@PathVariable(name = "id") Long id) {
-    useCase.delete(id);
+    memoirService.delete(id);
   }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<MemoirResponse> getAll() {
-    return useCase.getAll();
+    return memoirService.getAll();
   }
 }
