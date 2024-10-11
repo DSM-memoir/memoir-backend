@@ -22,10 +22,9 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = extractToken(request);
 
-        if (token != null) {
-            SecurityContextHolder.clearContext();
-            SecurityContextHolder.getContext().setAuthentication(jwtParser.getAuthentication(token));
-        }
+        SecurityContextHolder.clearContext();
+
+        if (token != null) SecurityContextHolder.getContext().setAuthentication(jwtParser.getAuthentication(token));
 
         chain.doFilter(request, response);
     }

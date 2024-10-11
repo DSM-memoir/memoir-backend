@@ -1,5 +1,6 @@
 package com.memoir.global.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.memoir.global.security.jwt.JwtParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurer;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class FilterConfig implements SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity> {
 
     private final JwtParser jwtParser;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void init(HttpSecurity builder) {}
@@ -20,6 +22,6 @@ public class FilterConfig implements SecurityConfigurer<DefaultSecurityFilterCha
     @Override
     public void configure(HttpSecurity builder) {
         builder.addFilterBefore(new JwtFilter(jwtParser), UsernamePasswordAuthenticationFilter.class);
-        // TODO : 예외처리 필터 추가
+        builder.addFilterBefore(new ExceptionFilter(objectMapper), JwtFilter.class);
     }
 }

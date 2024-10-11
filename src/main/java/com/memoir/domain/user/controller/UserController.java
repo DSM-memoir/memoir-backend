@@ -5,6 +5,7 @@ import com.memoir.domain.user.controller.dto.request.SignUpRequest;
 import com.memoir.domain.user.controller.dto.response.LoginResponse;
 import com.memoir.domain.user.service.LoginService;
 import com.memoir.domain.user.service.SignUpService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +21,12 @@ public class UserController {
     private final SignUpService signUpService;
 
     @PostMapping("/login")
-    private LoginResponse signIn(@RequestBody LoginRequest loginRequest) {
+    private LoginResponse signIn(@RequestBody @Valid LoginRequest loginRequest) {
         return loginService.execute(loginRequest);
     }
 
     @PostMapping("/signup")
-    private LoginResponse signUp(@RequestBody SignUpRequest signUpRequest) {
+    private LoginResponse signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         return signUpService.execute(signUpRequest);
     }
 
