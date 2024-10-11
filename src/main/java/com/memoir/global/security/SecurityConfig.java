@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
@@ -20,6 +22,8 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfig {
 
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final FilterConfig filterConfig;
 
     @Bean
@@ -27,18 +31,28 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .headers(headers -> headers.frameOptions(it -> it.sameOrigin()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http
                 .authorizeHttpRequests( authorize -> authorize
+                        .requestMatchers("/").permitAll()
+
                         .requestMatchers("/user/login", "/user/signup", "/error").permitAll()
 
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET, "/memoir").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/memoir").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/memoir/{id}").authenticated()
+
+                        .anyRequest().denyAll()
                 );
         http
                 .apply(filterConfig);
+        http
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                );
 
         return http.build();
     }
