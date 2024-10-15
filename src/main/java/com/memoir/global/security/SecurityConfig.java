@@ -40,9 +40,13 @@ public class SecurityConfig {
 
                         .requestMatchers("/user/login", "/user/signup", "/error").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/user").authenticated()
+
                         .requestMatchers(HttpMethod.GET, "/memoir").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/memoir").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/memoir/{id}").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/memoir").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/memoir/{memoir-id}").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/memoir/{memoir-id}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/memoir/{memoir-id}").authenticated()
 
                         .anyRequest().denyAll()
                 );
