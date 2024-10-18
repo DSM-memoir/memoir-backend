@@ -26,9 +26,6 @@ public class JwtParser {
     public Authentication getAuthentication(String token) {
         Jws<Claims> claims = getClaims(token);
 
-        if (claims.getHeader().get(Header.JWT_TYPE) != JwtProperties.ACCESS)
-            return null;
-
         UserDetails userDetails = userDetailsService.loadUserByUsername(claims.getBody().getId());
 
 
