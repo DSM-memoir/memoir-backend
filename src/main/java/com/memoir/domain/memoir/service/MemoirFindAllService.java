@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemoirFindAll {
+public class MemoirFindAllService {
   private final MemoirRepository memoirRepository;
 
   public MemoirFindAllResponse execute() {
