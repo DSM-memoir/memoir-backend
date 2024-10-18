@@ -3,8 +3,10 @@ package com.memoir.domain.memoir.entity;
 import jakarta.persistence.*;
 
 import java.util.UUID;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Memoir {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
