@@ -25,12 +25,12 @@ public class User {
     @Column(unique = true, nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(60)")
+    @Column(nullable = false)
     private String accountId;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(60)")
+    @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(60)")
+    @Column(nullable = false)
     private String password;
 }

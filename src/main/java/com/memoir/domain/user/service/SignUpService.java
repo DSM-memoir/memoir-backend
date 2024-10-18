@@ -4,8 +4,8 @@ import com.memoir.domain.user.controller.dto.request.SignUpRequest;
 import com.memoir.domain.user.controller.dto.response.LoginResponse;
 import com.memoir.domain.user.entity.User;
 import com.memoir.global.security.jwt.JwtProvider;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignUpService {
 
     private final UserFacade userFacade;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
     public LoginResponse execute(SignUpRequest request) {
@@ -22,7 +23,7 @@ public class SignUpService {
         User user = User.builder()
                 .accountId(request.getAccountId())
                 .nickname(request.getNickname())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         User saveuser = userFacade.save(user);
