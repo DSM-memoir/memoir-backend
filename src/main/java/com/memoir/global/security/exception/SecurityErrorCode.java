@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 
 public enum SecurityErrorCode implements ErrorProperty {
 
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "Expired token", 1),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED.value(), "Invalid token", 2),
+
     FORBIDDEN(HttpStatus.FORBIDDEN.value(), "Can not access", 1),
 
     NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", 1)

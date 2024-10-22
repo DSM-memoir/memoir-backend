@@ -1,15 +1,15 @@
 package com.memoir.global.security.jwt;
 
 import com.memoir.global.security.SecurityProperties;
+import com.memoir.global.security.exception.ExpiredTokenException;
+import com.memoir.global.security.exception.InvalidTokenException;
 import com.memoir.global.security.principle.CustomUserDetailsService;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import java.util.Optional;
-import java.util.OptionalInt;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,9 +33,15 @@ public class JwtParser {
     }
 
     private Jws<Claims> getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(properties.secretKey)
-                .build()
-                .parseClaimsJws(token);
+        try {
+            return Jwts.parser()
+                    .setSigningKey(properties.secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+        }catch (Exception e) {
+            if (e instanceof ExpiredJwtException) throw new ExpiredTokenException();
+            else if (e instanceof SignatureException) throw new InvalidTokenException();
+            else throw e;
+        }
     }
 }
