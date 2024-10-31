@@ -3,10 +3,17 @@ package com.memoir.domain.memoir.entity;
 import jakarta.persistence.*;
 
 import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Memoir {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
