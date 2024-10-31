@@ -4,12 +4,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Getter
 @Builder
 public class CustomUserDetails implements UserDetails {
-    UUID userId;
+    private UUID userId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
