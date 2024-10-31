@@ -7,8 +7,8 @@ import com.memoir.global.security.principle.CustomUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,7 +40,7 @@ public class JwtParser {
                     .parseClaimsJws(token);
         }catch (Exception e) {
             if (e instanceof ExpiredJwtException) throw new ExpiredTokenException();
-            else if (e instanceof SignatureException) throw new InvalidTokenException();
+            else if (e instanceof JwtException) throw new InvalidTokenException();
             else throw e;
         }
     }
