@@ -9,9 +9,6 @@ public class MemoirCreateRequest {
   private String title;
 
   @NotNull
-  private String author;
-
-  @NotNull
   private String content;
 
   @NotNull

@@ -1,6 +1,7 @@
 package com.memoir.domain.memoir.service;
 
 import com.memoir.domain.memoir.controller.response.MemoirFindAllResponse;
+import com.memoir.domain.memoir.controller.response.MemoirFindResponse;
 import com.memoir.domain.memoir.entity.Memoir;
 import com.memoir.domain.memoir.repository.MemoirRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,21 @@ public class MemoirFindAllService {
 
   public MemoirFindAllResponse execute() {
     final List<Memoir> memoirs = memoirRepository.findAll();
-    return MemoirFindAllResponse.builder().memoirs(memoirs).build();
+
+    final List<MemoirFindResponse> memoirFindResponseList = memoirs
+            .stream()
+            .map((x ->
+                    MemoirFindResponse.builder()
+                            .id(x.getId())
+                            .title(x.getTitle())
+                            .feels(x.getFeels())
+                            .author(x.getAuthor().getNickname())
+                            .content(x.getContent())
+                            .imageUrl(x.getImageUrl())
+                            .build()
+            ))
+            .toList();
+
+    return MemoirFindAllResponse.builder().memoirs(memoirFindResponseList).build();
   }
 }
