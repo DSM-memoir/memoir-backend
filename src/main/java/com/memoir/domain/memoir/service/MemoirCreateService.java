@@ -30,6 +30,7 @@ public class MemoirCreateService {
             .content(request.getContent())
             .feels(request.getFeels())
             .imageUrl(imageUrl)
+            .published(request.isPublished())
             .likes(0)
             .build();
 

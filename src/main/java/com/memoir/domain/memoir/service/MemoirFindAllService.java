@@ -23,11 +23,11 @@ public class MemoirFindAllService {
                     MemoirFindResponse.builder()
                             .id(x.getId())
                             .title(x.getTitle())
-                            .feels(x.getFeels())
                             .author(x.getAuthor().getNickname())
                             .content(x.getContent())
                             .imageUrl(x.getImageUrl())
-                            .likes(x.getLikes())
+                            .published(x.getPublished())
+                            .postDate(x.getPostDate())
                             .build()
             ))
             .toList();

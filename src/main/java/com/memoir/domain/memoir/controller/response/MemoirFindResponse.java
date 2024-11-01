@@ -3,6 +3,7 @@ package com.memoir.domain.memoir.controller.response;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -12,7 +13,7 @@ public class MemoirFindResponse {
   final String title;
   final String author;
   final String content;
-  final String feels;
   final String imageUrl;
-  final Integer likes;
+  final boolean published;
+  final LocalDate postDate;
 }

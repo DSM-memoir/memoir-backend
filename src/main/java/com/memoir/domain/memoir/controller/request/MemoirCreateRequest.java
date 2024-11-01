@@ -13,4 +13,7 @@ public class MemoirCreateRequest {
 
   @NotNull
   private String feels;
+
+  @NotNull
+  private boolean published;
 }
