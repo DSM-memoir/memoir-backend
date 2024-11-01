@@ -26,7 +26,7 @@ public class Memoir {
 
   @ManyToOne(cascade = CascadeType.ALL, optional = false, targetEntity = User.class)
   @JoinColumn(name = "author", referencedColumnName = "id")
-  private String author;
+  private UUID author;
 
   @Column(nullable = false)
   private String content;
