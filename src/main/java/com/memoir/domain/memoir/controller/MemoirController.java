@@ -35,7 +35,7 @@ public class MemoirController {
   }
 
   @DeleteMapping("/{memoir-id}")
-  public void delete(@PathVariable("memoir-id") UUID memoirId) throws IOException {
+  public void delete(@PathVariable("memoir-id") UUID memoirId) {
     memoirDeleteService.execute(memoirId);
   }
 }
