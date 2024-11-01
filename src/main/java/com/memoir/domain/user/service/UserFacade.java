@@ -28,11 +28,6 @@ public class UserFacade {
         return user;
     }
 
-    public User findById(UUID userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
     public User save(User user) {
         if (userRepository.existsByAccountId(user.getAccountId())) throw new UserAccountIdAlreadyExistsException();
 
