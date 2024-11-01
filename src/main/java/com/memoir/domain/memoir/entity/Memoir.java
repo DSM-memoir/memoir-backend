@@ -1,5 +1,6 @@
 package com.memoir.domain.memoir.entity;
 
+import com.memoir.domain.user.entity.User;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -23,7 +24,8 @@ public class Memoir {
   @Column(nullable = false)
   private String title;
 
-  @Column(nullable = false)
+  @ManyToOne(cascade = CascadeType.ALL, optional = false, targetEntity = User.class)
+  @JoinColumn(name = "author", referencedColumnName = "id")
   private String author;
 
   @Column(nullable = false)
