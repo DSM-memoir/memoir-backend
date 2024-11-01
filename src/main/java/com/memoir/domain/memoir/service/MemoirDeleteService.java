@@ -1,0 +1,37 @@
+package com.memoir.domain.memoir.service;
+
+import com.memoir.domain.memoir.entity.Memoir;
+import com.memoir.domain.memoir.repository.MemoirRepository;
+import com.memoir.global.security.SecurityService;
+import com.memoir.global.security.exception.ForbiddenException;
+import com.memoir.global.storage.S3Service;
+import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class MemoirDeleteService {
+  private final SecurityService securityService;
+  private final MemoirRepository memoirRepository;
+  private final S3Service s3Service;
+
+  public void execute(UUID memoirId) throws IOException {
+    final UUID userId = securityService.getCurrentUserId();
+    final Memoir memoir = memoirRepository.findById(memoirId).orElseThrow(BadRequestException::new);
+
+    if(!memoir.getAuthor().getId().equals(userId)) {
+      throw new ForbiddenException();
+    }
+
+    String imageUrl = memoir.getImageUrl();
+    String[] splitImageUrl = imageUrl.split("/");
+    String s3Key = splitImageUrl[splitImageUrl.length - 1];
+
+    memoirRepository.deleteById(memoirId);
+    s3Service.deleteFile(s3Key);
+  }
+}

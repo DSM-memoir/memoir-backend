@@ -27,6 +27,7 @@ public class MemoirFindAllService {
                             .author(x.getAuthor().getNickname())
                             .content(x.getContent())
                             .imageUrl(x.getImageUrl())
+                            .likes(x.getLikes())
                             .build()
             ))
             .toList();

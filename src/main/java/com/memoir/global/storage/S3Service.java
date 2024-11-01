@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
@@ -24,9 +25,27 @@ public class S3Service {
   private final S3Client s3Client;
   private final S3Properties s3Properties;
 
-  public String uploadFile(MultipartFile image) throws IOException {
+  public void deleteFile(String key) {
+    if(key.isEmpty()){
+      throw new RuntimeException();
+    }
+
+    try {
+      final DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest
+              .builder()
+              .bucket(bucketName)
+              .key(key)
+              .build();
+
+      s3Client.deleteObject(deleteObjectRequest);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public String uploadFile(MultipartFile image) {
     if(image.isEmpty()) {
-      throw new BadRequestException("Fuck!! Give me File beach");
+      throw new RuntimeException();
     }
 
     String fileName = createFileName(image.getOriginalFilename());
@@ -40,7 +59,7 @@ public class S3Service {
               .build();
       RequestBody requestBody = RequestBody.fromBytes(image.getBytes());
       s3Client.putObject(putObjectRequest, requestBody);
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw new RuntimeException(e);
     }
     GetUrlRequest getUrlRequest = GetUrlRequest.builder()

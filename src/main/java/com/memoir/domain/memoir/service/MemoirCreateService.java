@@ -30,6 +30,7 @@ public class MemoirCreateService {
             .content(request.getContent())
             .feels(request.getFeels())
             .imageUrl(imageUrl)
+            .likes(0)
             .build();
 
     memoirRepository.save(memoir);

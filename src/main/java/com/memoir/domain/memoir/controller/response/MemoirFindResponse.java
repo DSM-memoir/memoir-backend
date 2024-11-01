@@ -14,4 +14,5 @@ public class MemoirFindResponse {
   final String content;
   final String feels;
   final String imageUrl;
+  final Integer likes;
 }
