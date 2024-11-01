@@ -44,10 +44,6 @@ public class S3Service {
   }
 
   public String uploadFile(MultipartFile image) {
-    if(image.isEmpty()) {
-      throw new RuntimeException();
-    }
-
     String fileName = createFileName(image.getOriginalFilename());
 
     try {

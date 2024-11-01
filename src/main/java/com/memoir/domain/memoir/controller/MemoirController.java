@@ -5,6 +5,7 @@ import com.memoir.domain.memoir.controller.response.MemoirFindAllResponse;
 import com.memoir.domain.memoir.service.MemoirCreateService;
 import com.memoir.domain.memoir.service.MemoirDeleteService;
 import com.memoir.domain.memoir.service.MemoirFindAllService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +28,9 @@ public class MemoirController {
 
   @PostMapping
   public void create(
-          @RequestPart(value = "data") MemoirCreateRequest request,
-          @RequestPart(value = "image") MultipartFile image
-          ) throws IOException {
+          @Valid @RequestPart(value = "data") MemoirCreateRequest request,
+          @RequestPart(value = "image", required = false) MultipartFile image
+          ) {
     memoirCreate.execute(request, image);
   }
 
