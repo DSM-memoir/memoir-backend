@@ -6,6 +6,7 @@ import com.memoir.domain.user.exception.UserAccountIdAlreadyExistsException;
 import com.memoir.domain.user.exception.UserNotFoundException;
 import com.memoir.domain.user.repository.UserRepository;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,11 @@ public class UserFacade {
         if (!passwordEncoder.matches(password, user.getPassword())) throw new PasswordNotMatch();
 
         return user;
+    }
+
+    public User findById(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
     }
 
     public User save(User user) {
