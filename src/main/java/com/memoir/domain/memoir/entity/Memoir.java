@@ -3,6 +3,7 @@ package com.memoir.domain.memoir.entity;
 import com.memoir.domain.user.entity.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class Memoir {
   @Column(nullable = false)
   private String title;
 
-  @ManyToOne(cascade = CascadeType.ALL, optional = false, targetEntity = User.class)
+  @ManyToOne(optional = false, targetEntity = User.class)
   @JoinColumn(name = "author", referencedColumnName = "id")
   private User author;
 
@@ -35,5 +36,11 @@ public class Memoir {
   private String feels;
 
   @Column(nullable = false)
+  private LocalDate postDate;
+
+  @Column(nullable = false)
   private String imageUrl;
+
+  @Column(nullable = false)
+  private Boolean published;
 }
