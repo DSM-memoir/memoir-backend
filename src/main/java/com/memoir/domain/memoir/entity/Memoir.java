@@ -46,7 +46,4 @@ public class Memoir {
 
   @Column(nullable = false)
   private Boolean published;
-
-  @Column(nullable = false)
-  private Integer likes;
 }

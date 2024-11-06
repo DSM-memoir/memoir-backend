@@ -49,6 +49,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/memoir/{memoir-id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/memoir/{memoir-id}").authenticated()
 
+                        .requestMatchers(HttpMethod.PATCH, "/memoir/like/{memoir-id}").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/memoir/published/{memoir-id}").authenticated()
+
                         .anyRequest().denyAll()
                 );
         http
