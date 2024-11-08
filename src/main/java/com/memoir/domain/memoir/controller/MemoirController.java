@@ -5,6 +5,7 @@ import com.memoir.domain.memoir.controller.response.MemoirFindAllResponse;
 import com.memoir.domain.memoir.service.MemoirCreateService;
 import com.memoir.domain.memoir.service.MemoirDeleteService;
 import com.memoir.domain.memoir.service.MemoirFindAllService;
+import com.memoir.domain.memoir.service.MemoirFindByUUID;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +21,16 @@ public class MemoirController {
   private final MemoirFindAllService memoirFindAll;
   private final MemoirCreateService memoirCreate;
   private final MemoirDeleteService memoirDeleteService;
+  private final MemoirFindByUUID memoirFindByUUID;
 
   @GetMapping
   public MemoirFindAllResponse findAll(){
     return memoirFindAll.execute();
+  }
+
+  @GetMapping("/{memoir-id}")
+  public void findByUUID(@PathVariable("memoir-id") UUID memoirId){
+    memoirFindByUUID.execute(memoirId);
   }
 
   @PostMapping
