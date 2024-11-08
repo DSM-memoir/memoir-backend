@@ -15,7 +15,7 @@ public class MemoirFindAllService {
   private final MemoirRepository memoirRepository;
 
   public MemoirFindAllResponse execute() {
-    final List<Memoir> memoirs = memoirRepository.findAll();
+    final List<Memoir> memoirs = memoirRepository.findPostList();
 
     final List<MemoirFindResponse> memoirFindResponseList = memoirs
             .stream()
