@@ -6,6 +6,7 @@ import com.memoir.domain.memoir.exception.ImageIsNotNullException;
 import com.memoir.domain.memoir.repository.MemoirRepository;
 import com.memoir.global.security.SecurityService;
 import com.memoir.global.storage.S3Service;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ public class MemoirCreateService {
   private final MemoirRepository memoirRepository;
   private final SecurityService securityService;
 
+  @Transactional()
   public void execute(MemoirCreateRequest request, MultipartFile image) {
     if (image == null || image.isEmpty()) {
       throw new ImageIsNotNullException();

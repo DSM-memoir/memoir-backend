@@ -6,12 +6,14 @@ import com.memoir.domain.memoir.exception.NotFoundMemoirException;
 import com.memoir.domain.memoir.repository.MemoirRepository;
 import com.memoir.global.security.SecurityService;
 import com.memoir.global.storage.S3Service;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@Transactional()
 @RequiredArgsConstructor
 public class MemoirDeleteService {
   private final SecurityService securityService;
