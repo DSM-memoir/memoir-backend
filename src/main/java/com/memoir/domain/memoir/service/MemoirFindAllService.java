@@ -4,6 +4,8 @@ import com.memoir.domain.memoir.controller.response.MemoirFindAllResponse;
 import com.memoir.domain.memoir.controller.response.MemoirFindResponse;
 import com.memoir.domain.memoir.entity.Memoir;
 import com.memoir.domain.memoir.repository.MemoirRepository;
+import com.memoir.global.security.SecurityService;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemoirFindAllService {
   private final MemoirRepository memoirRepository;
+  private final SecurityService securityService;
 
   public MemoirFindAllResponse execute() {
-    final List<Memoir> memoirs = memoirRepository.findPostList();
+    UUID userId = securityService.getCurrentUserId();
+
+    final List<Memoir> memoirs = memoirRepository.findPostList(userId);
 
     final List<MemoirFindResponse> memoirFindResponseList = memoirs
             .stream()
