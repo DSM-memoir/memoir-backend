@@ -2,7 +2,7 @@ package com.memoir.domain.memoir.service;
 
 import com.memoir.domain.memoir.controller.request.MemoirCreateRequest;
 import com.memoir.domain.memoir.entity.Memoir;
-import com.memoir.domain.memoir.exception.ImageIsNotNull;
+import com.memoir.domain.memoir.exception.ImageIsNotNullException;
 import com.memoir.domain.memoir.repository.MemoirRepository;
 import com.memoir.global.security.SecurityService;
 import com.memoir.global.storage.S3Service;
@@ -19,7 +19,7 @@ public class MemoirCreateService {
 
   public void execute(MemoirCreateRequest request, MultipartFile image) {
     if (image == null || image.isEmpty()) {
-      throw new ImageIsNotNull();
+      throw new ImageIsNotNullException();
     }
 
     final String imageUrl = s3Service.uploadFile(image);
