@@ -2,16 +2,17 @@ package com.memoir.domain.memoir.controller;
 
 import com.memoir.domain.memoir.controller.request.MemoirCreateRequest;
 import com.memoir.domain.memoir.controller.response.MemoirFindAllResponse;
+import com.memoir.domain.memoir.controller.response.MemoirDetailDTO;
 import com.memoir.domain.memoir.service.MemoirCreateService;
 import com.memoir.domain.memoir.service.MemoirDeleteService;
 import com.memoir.domain.memoir.service.MemoirFindAllService;
 import com.memoir.domain.memoir.service.MemoirFindByUUID;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -29,10 +30,11 @@ public class MemoirController {
   }
 
   @GetMapping("/{memoir-id}")
-  public void findByUUID(@PathVariable("memoir-id") UUID memoirId){
-    memoirFindByUUID.execute(memoirId);
+  public MemoirDetailDTO findByUUID(@PathVariable("memoir-id") UUID memoirId){
+    return memoirFindByUUID.execute(memoirId);
   }
 
+  @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
   public void create(
           @Valid @RequestPart(value = "data") MemoirCreateRequest request,
@@ -41,6 +43,7 @@ public class MemoirController {
     memoirCreate.execute(request, image);
   }
 
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{memoir-id}")
   public void delete(@PathVariable("memoir-id") UUID memoirId) {
     memoirDeleteService.execute(memoirId);
