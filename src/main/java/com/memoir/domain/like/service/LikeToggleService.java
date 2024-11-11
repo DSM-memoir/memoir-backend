@@ -22,7 +22,6 @@ public class LikeToggleService {
     private final MemoirFacade memoirFacade;
 
     public LikeResponse execute(UUID memoir_id) {
-        System.out.println("로직 시작");
         User user = securityService.getCurrentUser();
         Memoir memoir = memoirFacade.findById(memoir_id);
 

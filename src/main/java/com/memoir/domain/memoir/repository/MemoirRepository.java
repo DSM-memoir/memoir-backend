@@ -23,7 +23,7 @@ public interface MemoirRepository extends JpaRepository<Memoir, UUID> {
     List<Memoir> findPostList(@Param("userId") UUID userId);
 
     @Query(value = """
-            select new com.memoir.domain.memoir.controller.response.MemoirDetailDTO(m.id, m.title, m.author.nickname, m.content, m.feels, m.postDate, count(lt.memoir), case when :userId in lt.user.id then true else false end, m.imageUrl, m.published) from Memoir as m
+            select new com.memoir.domain.memoir.controller.response.MemoirDetailDTO(m.id, m.title, m.author.nickname, m.content, m.feels, m.postDate, count(lt.memoir), (case when :userId = lt.user.id then true else false end), m.imageUrl, m.published) from Memoir as m
             left join like_table lt on m.id = lt.memoir.id
             where m.id = :memoirId
             group by m.id
