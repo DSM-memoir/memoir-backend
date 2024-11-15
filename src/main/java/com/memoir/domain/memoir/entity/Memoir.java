@@ -1,5 +1,6 @@
 package com.memoir.domain.memoir.entity;
 
+import com.memoir.domain.memoir.exception.IsNotMineException;
 import com.memoir.domain.user.entity.User;
 import jakarta.persistence.*;
 
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -44,6 +46,11 @@ public class Memoir {
   @Column(nullable = false)
   private String imageUrl;
 
+  @Setter
   @Column(nullable = false)
   private Boolean published;
+
+  public void checkOwner(UUID userId) {
+    if (!userId.equals(author.getId())) throw new IsNotMineException();
+  }
 }

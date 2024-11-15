@@ -8,6 +8,7 @@ import com.memoir.domain.user.service.LoginService;
 import com.memoir.domain.user.service.MyPageService;
 import com.memoir.domain.user.service.SignUpService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
