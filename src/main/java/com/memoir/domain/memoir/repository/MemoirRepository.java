@@ -29,4 +29,15 @@ public interface MemoirRepository extends JpaRepository<Memoir, UUID> {
             group by m.id
             """)
     MemoirDetailDTO findDetailById(@Param("memoirId") UUID memoirId, @Param("userId") UUID userId);
+
+    @Query(value = """
+            select new com.memoir.domain.memoir.entity.Memoir(m.id, m.title, m.author, m.content, m.feels, m.postDate, m.imageUrl, m.published) from Memoir as m
+            left join like_table lt on m.id = lt.memoir.id
+            where (m.published = true) OR
+                (m.published = false AND m.author.id = :userId)
+            group by m.id
+            
+            order by count(lt.memoir) desc
+            """)
+    List<Memoir> findPostListByLike(@Param("userId") UUID userId);
 }

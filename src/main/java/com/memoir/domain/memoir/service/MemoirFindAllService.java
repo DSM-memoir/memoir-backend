@@ -17,10 +17,19 @@ public class MemoirFindAllService {
   private final MemoirRepository memoirRepository;
   private final SecurityService securityService;
 
-  public MemoirFindAllResponse execute() {
+  public MemoirFindAllResponse execute(String sortBy) {
+    System.out.println(sortBy);
+
     UUID userId = securityService.getCurrentUserId();
 
-    final List<Memoir> memoirs = memoirRepository.findPostList(userId);
+    List<Memoir> memoirs;
+
+    if (sortBy.equals("LIKE")) {
+      memoirs = memoirRepository.findPostListByLike(userId);
+    }else {
+      memoirs = memoirRepository.findPostList(userId);
+    }
+
 
     final List<MemoirFindResponse> memoirFindResponseList = memoirs
             .stream()

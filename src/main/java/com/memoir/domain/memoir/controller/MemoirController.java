@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,8 +36,8 @@ public class MemoirController {
   private final MemoirPublishedService memoirPublishedService;
 
   @GetMapping
-  public MemoirFindAllResponse findAll(){
-    return memoirFindAll.execute();
+  public MemoirFindAllResponse findAll(@RequestParam(value = "sort", required = false, defaultValue = "RECENT") SortBy sortBy){
+    return memoirFindAll.execute(sortBy.name());
   }
 
   @GetMapping("/{memoir-id}")
@@ -64,4 +65,9 @@ public class MemoirController {
   private PublishedResponse publishedToggle(@PathVariable UUID memoir_id) {
     return memoirPublishedService.execute(memoir_id);
   }
+}
+
+enum SortBy {
+  LIKE,
+  RECENT;
 }
