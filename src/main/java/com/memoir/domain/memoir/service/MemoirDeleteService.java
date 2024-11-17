@@ -1,5 +1,6 @@
 package com.memoir.domain.memoir.service;
 
+import com.memoir.domain.like.repository.LikeRepository;
 import com.memoir.domain.memoir.entity.Memoir;
 import com.memoir.domain.memoir.exception.IsNotMineException;
 import com.memoir.domain.memoir.exception.NotFoundMemoirException;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class MemoirDeleteService {
   private final SecurityService securityService;
   private final MemoirRepository memoirRepository;
+  private final LikeRepository likeRepository;
   private final S3Service s3Service;
 
   public void execute(UUID memoirId) {
@@ -32,6 +34,7 @@ public class MemoirDeleteService {
     String[] splitImageUrl = imageUrl.split("/");
     String s3Key = splitImageUrl[splitImageUrl.length - 1];
 
+    likeRepository.deleteByMemoirId(memoirId);
     memoirRepository.deleteById(memoirId);
     s3Service.deleteFile(s3Key);
   }
