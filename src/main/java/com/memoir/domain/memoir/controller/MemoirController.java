@@ -1,14 +1,12 @@
 package com.memoir.domain.memoir.controller;
 
 import com.memoir.domain.memoir.controller.request.MemoirCreateRequest;
+import com.memoir.domain.memoir.controller.request.MemoirUpdateRequest;
 import com.memoir.domain.memoir.controller.response.MemoirDetailDTO;
 import com.memoir.domain.memoir.controller.response.MemoirFindAllResponse;
+import com.memoir.domain.memoir.controller.response.MemoirFindResponse;
 import com.memoir.domain.memoir.controller.response.PublishedResponse;
-import com.memoir.domain.memoir.service.MemoirCreateService;
-import com.memoir.domain.memoir.service.MemoirDeleteService;
-import com.memoir.domain.memoir.service.MemoirFindAllService;
-import com.memoir.domain.memoir.service.MemoirFindByUUID;
-import com.memoir.domain.memoir.service.MemoirPublishedService;
+import com.memoir.domain.memoir.service.*;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +32,7 @@ public class MemoirController {
   private final MemoirDeleteService memoirDeleteService;
   private final MemoirFindByUUID memoirFindByUUID;
   private final MemoirPublishedService memoirPublishedService;
+  private final MemoirUpdateService memoirUpdateService;
 
   @GetMapping
   public MemoirFindAllResponse findAll(@RequestParam(value = "sort", required = false, defaultValue = "RECENT") SortBy sortBy){
@@ -52,6 +51,16 @@ public class MemoirController {
           @RequestPart(value = "image", required = false) MultipartFile image
           ) {
     memoirCreate.execute(request, image);
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @PatchMapping("/{memoir-id}")
+  public MemoirFindResponse update(
+          @PathVariable("memoir-id") UUID memoirId,
+          @RequestPart(value = "data", required = false) MemoirUpdateRequest request,
+          @RequestPart(value = "image", required = false) MultipartFile image
+  ) {
+    return memoirUpdateService.execute(memoirId, request, image);
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)

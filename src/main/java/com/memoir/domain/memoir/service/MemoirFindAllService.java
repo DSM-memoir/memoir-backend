@@ -39,6 +39,7 @@ public class MemoirFindAllService {
                             .title(x.getTitle())
                             .author(x.getAuthor().getNickname())
                             .content(x.getContent())
+                            .feels(x.getFeels())
                             .imageUrl(x.getImageUrl())
                             .published(x.getPublished())
                             .postDate(x.getPostDate())

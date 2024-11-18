@@ -26,6 +26,7 @@ public class Memoir {
   @Column(unique = true, nullable = false, columnDefinition = "BINARY(16)")
   private UUID id;
 
+  @Setter
   @Column(nullable = false)
   private String title;
 
@@ -33,9 +34,11 @@ public class Memoir {
   @JoinColumn(name = "author", referencedColumnName = "id")
   private User author;
 
+  @Setter
   @Column(nullable = false)
   private String content;
 
+  @Setter
   @Column(nullable = false)
   private String feels;
 
@@ -43,6 +46,7 @@ public class Memoir {
   @Column(nullable = false)
   private LocalDate postDate;
 
+  @Setter
   @Column(nullable = false)
   private String imageUrl;
 

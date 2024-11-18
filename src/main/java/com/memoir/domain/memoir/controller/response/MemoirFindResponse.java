@@ -13,6 +13,7 @@ public class MemoirFindResponse {
   final String title;
   final String author;
   final String content;
+  final String feels;
   final String imageUrl;
   final boolean published;
   final LocalDate postDate;
